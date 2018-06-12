@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLEMDecipher
+namespace ARLEMDecipher.Models.Workplaces
 {
-    public class Class1
+    public class WorkplaceManager
     {
+
     }
 }
