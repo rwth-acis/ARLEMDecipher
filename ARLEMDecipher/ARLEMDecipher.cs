@@ -18,7 +18,7 @@ namespace ARLEMDecipher
         
         string ServerUrl;
         RESTManager ApiManager;
-        Workplace Workplace;
+        public Workplace Workplace;
         Activity Activity;
 
         public ARLEMDecipher(string url)
@@ -27,9 +27,15 @@ namespace ARLEMDecipher
             ApiManager = new RESTManager("http://127.0.0.1:8080/");
         }
 
-        public void LoadWorkplace(int id)
+        public bool LoadWorkplace(int id)
         {
-            Workplace = ApiManager.GET<Workplace>("workplace/json/" + id.ToString());           
+            Workplace = ApiManager.GET<Workplace>("workplace/json/" + id.ToString()); 
+            if(Workplace == null)
+            {
+                Console.WriteLine("Workplace not found");
+                return false;
+            }
+            return true;
         }
 
         public void LoadActivity(int id)
@@ -41,33 +47,39 @@ namespace ARLEMDecipher
         {
             List<int> Ids = new List<int>();
             Workplace.Activities.ForEach(x => Ids.Add(x.InertnalID));
+            if(Ids.Count == 0)
+            {
+                Console.WriteLine("No activites found");
+            }
             return Ids.ToArray();
         }
 
-        public List<VirtualSensor> RequiredSensor()
+        public List<string> AvailableSensors()
         {
-            List<VirtualSensor> VirtualSensors = new List<VirtualSensor>();
+            List<string> Sensors = new List<string>(); 
+            Workplace.Sensors.ForEach(sensor =>
+            {
+                Sensors.Add(sensor.URI);
+            });
+            return Sensors;
+        }
+
+        public List<string> RequiredModules()
+        {
+            List<string> Modules = new List<string>();
 
             Activity.Actions.ForEach(action =>
             {
                 action.Triggers.ForEach(trigger =>
                 {
-                    trigger.Operations.ForEach(operation =>
+                    if(trigger.Mode.Name == "detect" && trigger.Type != "")
                     {
-                        if(operation.Sensor != null)
-                        {
-                            VirtualSensors.Add(operation.Sensor);
-                        }
-                    });
+                        Modules.Add(trigger.Type);
+                    }
                 });
             });
 
-            return VirtualSensors;
-        }
-
-        public List<string> RequiredModules()
-        {
-            return new List<string>(new string[]{ "HAR", "HGR"});
+            return Modules;
         }
     }
 }

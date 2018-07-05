@@ -16,6 +16,12 @@ namespace ARLEMDecipher.Models.Activities
         [JsonProperty("mode")]
         public ActionTriggerMode Mode { get; set; }
 
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("value")]
+        public string Value { get; set; }
+
         [JsonProperty("remove")]
         public string RemoveSelf { get; set; }
 

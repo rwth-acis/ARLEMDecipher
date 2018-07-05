@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ARLEMDecipher.Models.Workplaces.Sensors;
 
 namespace ARLEMDecipher.Models.Workplaces
 {
@@ -24,5 +25,8 @@ namespace ARLEMDecipher.Models.Workplaces
 
         [JsonProperty("activities")]
         public List<Activity> Activities { get; set; }
+
+        [JsonProperty("sensors")]
+        public List<VirtualSensor> Sensors { get; set; }
     }
 }
