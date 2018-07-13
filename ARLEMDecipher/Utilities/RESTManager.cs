@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ARLEMDecipher.Models.Workplaces;
 using Newtonsoft.Json;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace ARLEMDecipher.Utilities
 {
@@ -25,7 +27,22 @@ namespace ARLEMDecipher.Utilities
         {
             var Request = new RestRequest(path, Method.GET);
             IRestResponse response = Client.Execute(Request);
-            var Item  = JsonConvert.DeserializeObject<T>(response.Content);
+
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Workplace), new XmlRootAttribute("workplace"));
+            StringReader stringReader = new StringReader(response.Content);
+
+            var Item = (Workplace)serializer.Deserialize(stringReader);
+            stringReader.Close();
+
+            return (T)Convert.ChangeType(Item, typeof(T)); ;
+        }
+
+        public T GETJSON<T>(string path)
+        {
+            var Request = new RestRequest(path, Method.GET);
+            IRestResponse response = Client.Execute(Request);
+            var Item = JsonConvert.DeserializeObject<T>(response.Content);
             return Item;
         }
 

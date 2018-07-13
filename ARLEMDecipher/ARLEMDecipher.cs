@@ -13,6 +13,15 @@ using System.Threading.Tasks;
 
 namespace ARLEMDecipher
 {
+    public struct ExportedAction
+    {
+        public int Id;
+        public string Module;
+        public int[] ComparedValue;
+        public int NextAction;
+        public string Instruction;
+    };
+
     public class ARLEMDecipher
     {
         
@@ -24,12 +33,12 @@ namespace ARLEMDecipher
         public ARLEMDecipher(string url)
         {
             ServerUrl = url;
-            ApiManager = new RESTManager("http://127.0.0.1:8080/");
+            ApiManager = new RESTManager(url);
         }
 
         public bool LoadWorkplace(int id)
         {
-            Workplace = ApiManager.GET<Workplace>("workplace/json/" + id.ToString()); 
+            Workplace = ApiManager.GET<Workplace>("workplace/xml/" + id.ToString()); 
             if(Workplace == null)
             {
                 Console.WriteLine("Workplace not found");
@@ -38,10 +47,22 @@ namespace ARLEMDecipher
             return true;
         }
 
-        public void LoadActivity(int id)
+        public bool LoadWorkplaceJSON(int id)
         {
-            Activity = ApiManager.GET<Activity>("activity/json/" + id.ToString());
+            Workplace = ApiManager.GETJSON<Workplace>("workplace/json/" + id.ToString());
+            if (Workplace == null)
+            {
+                Console.WriteLine("Workplace not found");
+                return false;
+            }
+            return true;
         }
+
+        public void LoadActivityJSON(int id)
+        {
+            Activity = ApiManager.GETJSON<Activity>("activity/json/" + id.ToString());
+        }
+
 
         public int[] AvailableActivites()
         {
@@ -79,7 +100,40 @@ namespace ARLEMDecipher
                 });
             });
 
-            return Modules;
+            return Modules.Distinct().ToList();
+        }
+
+        public List<ExportedAction> GetActivityActions()
+        {
+            List<ExportedAction> RequiredActions = new List<ExportedAction>();
+            Activity.Actions.ForEach(action =>
+            {
+                ExportedAction tmpAction = new ExportedAction();
+                action.Triggers.ForEach(trigger =>
+                {
+                    if (trigger.Mode.Name == "detect" && trigger.Type != "" && trigger.Value != "")
+                    {
+                        int entity = 0;
+                        trigger.Operations.ForEach(operation =>
+                        {
+                            if (operation.EntityType == "Action")
+                            {
+                                entity = operation.Entity;
+                            }
+                        });
+                        if (entity != 0)
+                        {
+                            tmpAction.Id = action.InertnalID;
+                            tmpAction.Module = trigger.Type;
+                            tmpAction.ComparedValue = Array.ConvertAll(trigger.Value.Split(','), int.Parse);
+                            tmpAction.NextAction = entity;
+                            tmpAction.Instruction = action.InstructionTitle;
+                            RequiredActions.Add(tmpAction);
+                        }
+                    }
+                });
+            });
+            return RequiredActions;
         }
     }
 }

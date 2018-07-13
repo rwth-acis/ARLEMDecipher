@@ -8,24 +8,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ARLEMDecipher.Models.Activities
 {
+    [Serializable()]
     public class ActionTriggerOperation
     {
+        [XmlAttribute("id")]
         [JsonProperty("id")]
         public int InertnalID { get; set; }
 
+        [XmlAttribute("is_active")]
         [JsonProperty("is_active")]
         public string IsActivate { get; set; }
 
-        public IWorkplaceItem Entity { get; set; }
+        [XmlAttribute("entityId")]
+        [JsonProperty("entityId")]
+        public int Entity { get; set; }
 
+        [XmlAttribute("entityType")]
+        [JsonProperty("entityType")]
+        public string EntityType { get; set; }
+
+        [XmlElement("predicate")]
         [JsonProperty("predicate")]
         public Predicate Predicate { get; set; }
 
+        [XmlAttribute("options")]
         [JsonProperty("options")]
-        public String Options { get; set; }
+        public string Options { get; set; }
+
 
         [JsonProperty("sensor")]
         public VirtualSensor Sensor { get; set; }
