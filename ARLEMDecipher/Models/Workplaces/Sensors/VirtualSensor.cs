@@ -14,18 +14,14 @@ namespace ARLEMDecipher.Models.Workplaces.Sensors
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InternalID { get; set; }
-
-        [XmlAttribute("id_name")]
-        [JsonProperty("id_name")]
         public string ID { get; set; }
 
         [XmlAttribute("name")]
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [XmlAttribute("uri")]
-        [JsonProperty("uri")]
+        [XmlAttribute("url")]
+        [JsonProperty("url")]
         public string URI { get; set; }
 
        [XmlAttribute("username")]

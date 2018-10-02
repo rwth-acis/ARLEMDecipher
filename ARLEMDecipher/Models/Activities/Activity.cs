@@ -15,11 +15,15 @@ namespace ARLEMDecipher.Models.Activities
     {
         [XmlElement("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
+        public int ID { get; set; }
 
         [XmlElement("name")]
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [XmlElement("description")]
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
         [XmlElement("language")]
         [JsonProperty("language")]

@@ -15,7 +15,7 @@ namespace ARLEMDecipher.Models.Workplaces
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
+        public int ID { get; set; }
 
         [XmlAttribute("name")]
         [JsonProperty("name")]

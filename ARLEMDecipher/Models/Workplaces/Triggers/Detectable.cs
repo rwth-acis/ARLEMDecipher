@@ -15,15 +15,19 @@ namespace ARLEMDecipher.Models.Workplaces.Triggers
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
+        public int ID { get; set; }
 
         [XmlElement("sensor")]
         [JsonProperty("sensor")]
-        public VirtualSensor Sensor { get; set; }
+        public int Sensor { get; set; }
 
         [XmlAttribute("type")]
         [JsonProperty("type")]
         public string Type { get; set; }
+
+        [XmlAttribute("url")]
+        [JsonProperty("url")]
+        public string Url { get; set; }
 
         public Asset Asset { get; set; }
 

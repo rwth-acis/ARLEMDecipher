@@ -15,10 +15,6 @@ namespace ARLEMDecipher.Models.Workplaces.Tangibles
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
-
-        [XmlAttribute("id_name")]
-        [JsonProperty("id_name")]
         public string ID { get; set; }
 
         [XmlAttribute("name")]
@@ -31,7 +27,7 @@ namespace ARLEMDecipher.Models.Workplaces.Tangibles
 
         [XmlArray("pois")]
         [XmlArrayItem("poi", typeof(POI))]
-        [JsonProperty("poi")]
+        [JsonProperty("pois")]
         public List<POI> PointOfInterests { get; set; }
 
         [XmlElement("detectable")]

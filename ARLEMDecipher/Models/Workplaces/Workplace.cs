@@ -10,12 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using ARLEMDecipher.Models.Workplaces.Sensors;
 using System.Xml.Serialization;
+using ARLEMDecipher.Models.Common;
 
 namespace ARLEMDecipher.Models.Workplaces
 {
     [Serializable()]
     public class Workplace
     {
+        [XmlAttribute("id")]
+        [JsonProperty("id")]
+        public int InternalID { get; set; }
+
+        [XmlAttribute("name")]
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [XmlElement("tangibles")]
         [JsonProperty("tangibles")]
         public Tangible Tangibles { get; set; }
@@ -35,5 +44,9 @@ namespace ARLEMDecipher.Models.Workplaces
         [XmlElement("sensors")]
         [JsonProperty("sensors")]
         public List<VirtualSensor> Sensors { get; set; }
+
+        [XmlElement("author")]
+        [JsonProperty("author")]
+        public Author Author { get; set; }
     }
 }

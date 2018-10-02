@@ -14,11 +14,11 @@ namespace ARLEMDecipher.Models.Activities
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
+        public int ID { get; set; }
 
         [XmlElement("mode")]
         [JsonProperty("mode")]
-        public ActionTriggerMode Mode { get; set; }
+        public string Mode { get; set; }
 
         [XmlAttribute("type")]
         [JsonProperty("type")]
@@ -28,13 +28,27 @@ namespace ARLEMDecipher.Models.Activities
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        [XmlAttribute("remove")]
-        [JsonProperty("remove")]
-        public string RemoveSelf { get; set; }
+        [XmlAttribute("removeSelf")]
+        [JsonProperty("removeSelf")]
+        public int RemoveSelf { get; set; }
+       
+        [XmlAttribute("entityId")]
+        [JsonProperty("entityId")]
+        public int Entity { get; set; }
 
-        [XmlArray("operations")]
-        [XmlArrayItem("operation", typeof(ActionTriggerOperation))]
-        [JsonProperty("operations")]
-        public List<ActionTriggerOperation> Operations { get; set; }
+        [XmlAttribute("modular")]
+        [JsonProperty("modular")]
+        public Module Modular { get; set; }
+
+        [XmlAttribute("entityType")]
+        [JsonProperty("entityType")]
+        public string EntityType { get; set; }      
+
+        [XmlAttribute("option")]
+        [JsonProperty("option")]
+        public string Options { get; set; }     
+
+        [JsonProperty("viewport")]
+        public ViewPort ViewPort { get; set; }
     }
 }

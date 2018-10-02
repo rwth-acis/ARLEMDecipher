@@ -38,7 +38,7 @@ namespace ARLEMDecipher
 
         public bool LoadWorkplace(int id)
         {
-            Workplace = ApiManager.GET<Workplace>("workplace/xml/" + id.ToString()); 
+            Workplace = ApiManager.GET<Workplace>("workplace/" + id.ToString()); 
             if(Workplace == null)
             {
                 Console.WriteLine("Workplace not found");
@@ -49,8 +49,8 @@ namespace ARLEMDecipher
 
         public bool LoadWorkplaceJSON(int id)
         {
-            Workplace = ApiManager.GETJSON<Workplace>("workplace/json/" + id.ToString());
-            if (Workplace == null)
+            Workplace = ApiManager.GETJSON<Workplace>("workplace/" + id.ToString());
+            if (Workplace == null || Workplace.InternalID == 0)
             {
                 Console.WriteLine("Workplace not found");
                 return false;
@@ -60,14 +60,14 @@ namespace ARLEMDecipher
 
         public void LoadActivityJSON(int id)
         {
-            Activity = ApiManager.GETJSON<Activity>("activity/json/" + id.ToString());
+            Activity = ApiManager.GETJSON<Activity>("activity/" + id.ToString());
         }
 
 
         public int[] AvailableActivites()
         {
             List<int> Ids = new List<int>();
-            Workplace.Activities.ForEach(x => Ids.Add(x.InertnalID));
+            Workplace.Activities.ForEach(x => Ids.Add(x.ID));
             if(Ids.Count == 0)
             {
                 Console.WriteLine("No activites found");
@@ -93,9 +93,9 @@ namespace ARLEMDecipher
             {
                 action.Triggers.ForEach(trigger =>
                 {
-                    if(trigger.Mode.Name == "detect" && trigger.Type != "")
+                    if(trigger.Mode == "module" && trigger.Modular.Name != "")
                     {
-                        Modules.Add(trigger.Type);
+                        Modules.Add(trigger.Modular.Name);
                     }
                 });
             });
@@ -111,23 +111,20 @@ namespace ARLEMDecipher
                 ExportedAction tmpAction = new ExportedAction();
                 action.Triggers.ForEach(trigger =>
                 {
-                    if (trigger.Mode.Name == "detect" && trigger.Type != "" && trigger.Value != "")
+                    if (trigger.Mode == "module" && trigger.Modular.Name != "" && trigger.Value != "")
                     {
                         int entity = 0;
-                        trigger.Operations.ForEach(operation =>
+                        if (trigger.EntityType == "action")
                         {
-                            if (operation.EntityType == "Action")
-                            {
-                                entity = operation.Entity;
-                            }
-                        });
+                            entity = trigger.Entity;
+                        }
                         if (entity != 0)
                         {
-                            tmpAction.Id = action.InertnalID;
-                            tmpAction.Module = trigger.Type;
+                            tmpAction.Id = action.ID;
+                            tmpAction.Module = trigger.Modular.Name;
                             tmpAction.ComparedValue = Array.ConvertAll(trigger.Value.Split(','), int.Parse);
                             tmpAction.NextAction = entity;
-                            tmpAction.Instruction = action.InstructionTitle;
+                            tmpAction.Instruction = action.InstructionDescription;
                             RequiredActions.Add(tmpAction);
                         }
                     }

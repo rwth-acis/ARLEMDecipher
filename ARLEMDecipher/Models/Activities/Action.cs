@@ -14,15 +14,15 @@ namespace ARLEMDecipher.Models.Activities
     {
         [XmlAttribute("id")]
         [JsonProperty("id")]
-        public int InertnalID { get; set; }
-
-        [XmlAttribute("id_name")]
-        [JsonProperty("id_name")]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         [XmlAttribute("name")]
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [XmlAttribute("type")]
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         [XmlAttribute("instructionTitle")]
         [JsonProperty("instructionTitle")]
@@ -38,7 +38,7 @@ namespace ARLEMDecipher.Models.Activities
 
         [XmlArray("triggers")]
         [XmlArrayItem("trigger", typeof(ActionTrigger))]
-        [JsonProperty("triggers")]
+        [JsonProperty("actionTriggers")]
         public List<ActionTrigger> Triggers { get; set; }
     }
 }

@@ -26,6 +26,7 @@ namespace ARLEMDecipher.Utilities
         public T GET<T>(string path)
         {
             var Request = new RestRequest(path, Method.GET);
+            Request.AddHeader("Content-type", "application/xml");
             IRestResponse response = Client.Execute(Request);
 
 
@@ -41,8 +42,15 @@ namespace ARLEMDecipher.Utilities
         public T GETJSON<T>(string path)
         {
             var Request = new RestRequest(path, Method.GET);
+            Request.AddHeader("Content-type", "application/json");
+            Request.AddHeader("Authorization", "Bearer f16187489b830bb49d9ba664991b1af4");
             IRestResponse response = Client.Execute(Request);
-            var Item = JsonConvert.DeserializeObject<T>(response.Content);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            var Item = JsonConvert.DeserializeObject<T>(response.Content, settings);
             return Item;
         }
 

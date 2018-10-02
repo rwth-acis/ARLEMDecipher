@@ -59,6 +59,7 @@
     <Compile Include="Models\Activities\ActionTriggerMode.cs" />
     <Compile Include="Models\Activities\ActionTriggerOperation.cs" />
     <Compile Include="Models\Activities\Activity.cs" />
+    <Compile Include="Models\Activities\Module.cs" />
     <Compile Include="Models\Common\Asset.cs" />
     <Compile Include="Models\Common\Author.cs" />
     <Compile Include="Models\Common\Enums.cs" />

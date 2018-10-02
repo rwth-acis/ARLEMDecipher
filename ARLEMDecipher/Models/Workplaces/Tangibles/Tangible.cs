@@ -15,17 +15,17 @@ namespace ARLEMDecipher.Models.Workplaces.Tangibles
     {
         [XmlArray("places")]
         [XmlArrayItem("palce", typeof(Place))]
-        [JsonProperty("place")]
+        [JsonProperty("places")]
         public List<Place> Places { get; set; }
 
         [XmlArray("people")]
         [XmlArrayItem("person", typeof(Person))]
-        [JsonProperty("person")]
+        [JsonProperty("persons")]
         public List<Person> Person { get; set; }
 
         [XmlArray("thigns")]
         [XmlArrayItem("thing", typeof(Thing))]
-        [JsonProperty("thing")]
+        [JsonProperty("things")]
         public List<Thing> Thing { get; set; }
     }
 }
